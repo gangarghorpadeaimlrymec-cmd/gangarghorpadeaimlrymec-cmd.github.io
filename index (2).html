@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ganga R Ghorpade – Data & AI Notebook</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E9ECF1; --cell:#FFFFFF; --code:#F5F6F9; --ink:#1D2530; --muted:#5B6673; --line:#D3D9E2;
+  --in:#2F5FD0; --out:#C2571A; --kw:#8A3FBF; --str:#0F7B4A; --num:#B4471A; --fn:#2F5FD0; --cm:#7A8594;
+  --sans:'IBM Plex Sans','Segoe UI',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0F1319;--cell:#171C24;--code:#1D2430;--ink:#E6EBF2;--muted:#9AA6B5;--line:#2C3541;--in:#7DA2FF;--out:#FF9A5C;--kw:#C99BFF;--str:#6FD6A1;--num:#FFB07A;--fn:#7DA2FF;--cm:#7F8A99}
+}
+:root[data-theme="dark"]{--bg:#0F1319;--cell:#171C24;--code:#1D2430;--ink:#E6EBF2;--muted:#9AA6B5;--line:#2C3541;--in:#7DA2FF;--out:#FF9A5C;--kw:#C99BFF;--str:#6FD6A1;--num:#FFB07A;--fn:#7DA2FF;--cm:#7F8A99}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.02rem/1.65 var(--sans)}
+a{color:var(--in)}
+a:focus-visible,input:focus-visible{outline:3px solid var(--out);outline-offset:3px}
+main{max-width:920px;margin:0 auto;padding:1.5rem 1rem 3rem}
+header{padding:1.5rem .2rem 1.2rem}
+h1{font-size:clamp(2.1rem,6vw,3.3rem);line-height:1.08;margin:0 0 .4rem;font-weight:600;letter-spacing:-.02em}
+header p{margin:0;color:var(--muted);max-width:52ch}
+.toolbar{display:flex;gap:1.1rem;flex-wrap:wrap;margin-top:1rem;font-weight:500}
+.cell{display:grid;grid-template-columns:5.2rem 1fr;background:var(--cell);border:1px solid var(--line);border-radius:8px;margin-bottom:1rem;overflow:hidden}
+.gutter{font:500 .85rem var(--mono);color:var(--in);padding:.9rem .6rem .9rem .9rem;text-align:right}
+.gutter.o{color:var(--out)}
+.body{padding:.9rem 1.1rem;min-width:0}
+.cell.codec .body{background:var(--code);border-left:1px solid var(--line)}
+.cell.outc{margin-top:-1rem;border-top:0;border-radius:0 0 8px 8px}
+.cell.codec:has(+ .outc){border-radius:8px 8px 0 0}
+pre{margin:0;font:400 .9rem/1.6 var(--mono);overflow-x:auto;white-space:pre}
+.k{color:var(--kw)}.s{color:var(--str)}.n{color:var(--num)}.f{color:var(--fn)}.c{color:var(--cm)}
+h2{font-size:1.45rem;margin:0 0 .5rem;font-weight:600}
+h3{font-size:1.1rem;margin:0 0 .3rem;font-weight:600}
+.body p{margin:.2rem 0 .6rem}
+.body ul{margin:.3rem 0 .2rem;padding-left:1.15rem}
+.body li{margin-bottom:.35rem}
+.badge{display:inline-block;font:500 .8rem var(--mono);padding:.05rem .5rem;border-radius:5px;background:var(--code);border:1px solid var(--line);color:var(--out);vertical-align:middle;margin-left:.4rem}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:.45rem .7rem;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--muted)}
+.wide{overflow-x:auto}
+/* compare slider */
+.frame{position:relative;aspect-ratio:16/9;max-width:520px;border-radius:6px;overflow:hidden;border:1px solid var(--line);--p:50%}
+.scene{position:absolute;inset:0;background:
+  radial-gradient(circle at 72% 30%,#FFD54A 0 10%,transparent 10.5%),
+  radial-gradient(ellipse 70% 42% at 25% 105%,#2E8B57 0 98%,transparent 100%),
+  radial-gradient(ellipse 80% 38% at 85% 108%,#1F6F4A 0 98%,transparent 100%),
+  linear-gradient(#5AB0E8,#F8C9A0 70%)}
+.scene.g{filter:grayscale(1);clip-path:inset(0 calc(100% - var(--p)) 0 0)}
+.div{position:absolute;top:0;bottom:0;left:var(--p);width:3px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.3);transform:translateX(-50%);pointer-events:none}
+.div::after{content:"";position:absolute;top:50%;left:50%;width:30px;height:30px;border-radius:50%;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.4);transform:translate(-50%,-50%)}
+.frame input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.frame:focus-within{outline:3px solid var(--out);outline-offset:3px}
+.cap{font-size:.88rem;color:var(--muted);margin:.5rem 0 0}
+footer{color:var(--muted);font-size:.9rem;padding:.5rem .2rem}
+@media(max-width:640px){
+  .cell{grid-template-columns:1fr}
+  .gutter{text-align:left;padding:.6rem 1rem 0}
+  .cell.codec .body{border-left:0}
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Ganga R Ghorpade</h1>
+    <p>AI & ML engineering student looking for an entry-level role in data analytics or AI. This page is laid out like a notebook: code on top, results underneath.</p>
+    <div class="toolbar">
+      <a href="mailto:gangarghorpade.aiml.rymec@gmail.com">Email</a>
+      <a href="https://github.com/gangarghorpadeaimlrymec-cmd" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/ganga-ghorpade-4242603b8" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </header>
+
+  <div class="cell"><div class="gutter"></div><div class="body">
+    <h2>About</h2>
+    <p>I'm from Sandur, Karnataka, studying Computer Science (AI & ML) in Ballari. I like to understand a problem properly before I build anything, and I'm careful when I work with data. I speak English, Kannada, Hindi and Telugu, and I enjoy cooking and travel.</p>
+  </div></div>
+
+  <div class="cell codec"><div class="gutter">In [1]:</div><div class="body"><pre><span class="c"># What I work with</span>
+skills = {
+    <span class="s">"languages"</span>: [<span class="s">"Python"</span>, <span class="s">"SQL"</span>],
+    <span class="s">"analysis"</span>:  [<span class="s">"NumPy"</span>, <span class="s">"Pandas"</span>, <span class="s">"Matplotlib"</span>],
+    <span class="s">"tools"</span>:     [<span class="s">"Excel"</span>, <span class="s">"Power BI"</span>],
+    <span class="s">"ai_ml"</span>:     [<span class="s">"Deep learning"</span>, <span class="s">"CNNs"</span>, <span class="s">"Computer vision"</span>,
+                 <span class="s">"Anomaly detection"</span>],
+}</pre></div></div>
+
+  <div class="cell"><div class="gutter"></div><div class="body">
+    <h2>Project 1: Image colorization<span class="badge">done</span></h2>
+    <p>A CNN that turns grayscale photos into realistic color images by predicting the missing color channels in LAB color space.</p>
+    <ul>
+      <li>Prepared the data with preprocessing, normalization and augmentation, then trained the model with Python and deep learning frameworks.</li>
+      <li>Checked results with image quality metrics and side-by-side comparison. Useful for photo restoration and computer vision.</li>
+    </ul>
+  </div></div>
+
+  <div class="cell codec"><div class="gutter">In [2]:</div><div class="body"><pre>result = model.<span class="f">colorize</span>(gray_image)
+<span class="f">compare</span>(gray_image, result)   <span class="c"># drag the slider below</span></pre></div></div>
+  <div class="cell outc"><div class="gutter o">Out [2]:</div><div class="body">
+    <div class="frame" id="frame">
+      <div class="scene"></div><div class="scene g"></div><div class="div"></div>
+      <input type="range" min="0" max="100" value="50" id="slider" aria-label="Drag to compare grayscale input with colorized output">
+    </div>
+    <p class="cap">Grayscale on the left, colorized on the right. This is an illustration of the idea, not output from my model.</p>
+  </div></div>
+
+  <div class="cell"><div class="gutter"></div><div class="body">
+    <h2>Project 2: AI-based autonomous cloud infrastructure<span class="badge">in progress</span></h2>
+    <p>A system aimed at zero-downtime operation: it watches applications, predicts failures and recovers on its own.</p>
+    <ul>
+      <li>Developing real-time monitoring that flags likely failures.</li>
+      <li>Building predictive analysis to catch anomalies early and cut downtime.</li>
+      <li>Designing automated resource management and failure recovery.</li>
+    </ul>
+  </div></div>
+
+  <div class="cell codec"><div class="gutter">In [3]:</div><div class="body"><pre>education = pd.<span class="f">DataFrame</span>(...)
+education</pre></div></div>
+  <div class="cell outc"><div class="gutter o">Out [3]:</div><div class="body wide">
+    <table>
+      <thead><tr><th>Course</th><th>Institution</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>B.E. Computer Science (AI & ML)</td><td>Rao Bahadur Y. Mahabaleshwarappa Engineering College, Ballari</td><td>Pursuing</td></tr>
+        <tr><td>Pre-University (PCMB)</td><td>S V Nanavate P U College, Sandur</td><td>87%</td></tr>
+        <tr><td>Secondary (CBSE)</td><td>Shri Shaileshwara Vidyakendra CBSE School, Sandur</td><td>70.8%</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+
+  <div class="cell codec"><div class="gutter">In [4]:</div><div class="body"><pre><span class="f">print</span>(<span class="s">"Open to entry-level roles and internships in data analytics and AI"</span>)</pre></div></div>
+  <div class="cell outc"><div class="gutter o">Out [4]:</div><div class="body">
+    <p>Open to entry-level roles and internships in data analytics and AI.</p>
+    <p><a href="mailto:gangarghorpade.aiml.rymec@gmail.com">gangarghorpade.aiml.rymec@gmail.com</a></p>
+  </div></div>
+
+  <footer>Ganga R Ghorpade, Karnataka, India</footer>
+</main>
+<script>
+(function(){var f=document.getElementById('frame'),s=document.getElementById('slider');
+function set(){f.style.setProperty('--p',s.value+'%')}s.addEventListener('input',set);set();})();
+</script>
+</body>
+</html>
